@@ -37,11 +37,14 @@ df_daily_5 = df_daily_6[~df_daily_6["product"].isin(["Cloud Storage","Cloud DNS"
 df_daily_5.groupby(["start_time", "product"]).min()["cost_norm"].unstack().plot()
 
 #
-df_daily_cloudSQL = df_daily[df_daily["product"] == "Cloud SQL"]
-df_daily_cloudSQL = df_daily_cloudSQL.set_index("start_time")
+def plot_prod(product):
+    df_daily_cloudSQL = df_daily[df_daily["product"] == product]
+    df_daily_cloudSQL = df_daily_cloudSQL[["start_time","unit","cost"]]
 
-df_daily_cloudSQL = df_daily_cloudSQL[["start_time","unit","cost"]]
+    df_daily_cloudSQL_pivot = pd.pivot_table(df_daily_cloudSQL, values="cost", index="start_time", columns="unit")
 
-df_daily_cloudSQL_pivot = pd.pivot_table(df_daily_cloudSQL, values="cost", index="start_time", columns="unit")
+    df_daily_cloudSQL_pivot.plot(title=product)
 
-df_daily_cloudSQL_pivot.plot()
+plot_prod("BigQuery")
+plot_prod("Cloud Storage")
+plot_prod("Compute Engine")
