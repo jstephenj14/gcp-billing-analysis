@@ -23,10 +23,7 @@ top_6_most_used_product = list(df_daily.groupby(["product"]).size().sort_values(
 
 df_daily_6 = df_daily[df_daily["product"].isin(top_6_most_used_product)]
 
-# df_daily_6 = df_daily_6.set_index(["start_time"])
-
-# df_daily_6.groupby(["start_time","product"])["cost"].plot()
-
+# Trying to plot topo 6
 df_daily_6["usage_amount_norm"] = (df_daily_6["usage_amount"] -
                                    df_daily_6["usage_amount"].min()) / (df_daily_6["usage_amount"].max() -
                                                                         df_daily_6["usage_amount"].min())
@@ -38,3 +35,13 @@ df_daily_6["cost_norm"] = (df_daily_6["cost"] -
 df_daily_5 = df_daily_6[~df_daily_6["product"].isin(["Cloud Storage","Cloud DNS","Cloud SQL"])]
 
 df_daily_5.groupby(["start_time", "product"]).min()["cost_norm"].unstack().plot()
+
+#
+df_daily_cloudSQL = df_daily[df_daily["product"] == "Cloud SQL"]
+df_daily_cloudSQL = df_daily_cloudSQL.set_index("start_time")
+
+df_daily_cloudSQL = df_daily_cloudSQL[["start_time","unit","cost"]]
+
+df_daily_cloudSQL_pivot = pd.pivot_table(df_daily_cloudSQL, values="cost", index="start_time", columns="unit")
+
+df_daily_cloudSQL_pivot.plot()
