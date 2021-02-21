@@ -20,21 +20,25 @@ select
     product,
     unit,
     resource_type,
-    project_id,
+    # project_id,
     sum(cost) cost ,
     sum(amount) usage_amount
 from sample_data.gcp_billing_sample
-group by 1,2,3,4,5;
+group by 1,2,3,4;
 
-create table sample_data.top_3_prods as
+create or replace table sample_data.top_3_prods as
 with top3 as
 (select * from (
-select product, unit, resource_type, sum(cost) cost, sum(usage_amount),count(*) cnt
+select product,
+unit, resource_type, sum(cost) cost, sum(usage_amount),count(*) cnt
 from sample_data.daily_data
-where product in ("BigQuery","Cloud Storage", "Compute Engine") and project_id = "Galactica"
+where product in ("BigQuery","Cloud Storage", "Compute Engine")
+# and project_id = "Galactica"
 group by 1,2, 3 order by 1,3 ) where cost > 1)
 select t1.*
 from `intense-arbor-186802.sample_data.daily_data` t1 inner join top3 t2
 on t1.product = t2.product
 and t1.unit = t2.unit
-and t1.resource_type = t2.resource_type;
+and t1.resource_type = t2.resource_type
+# where t1.project_id = "Galactica";
+
