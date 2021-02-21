@@ -42,3 +42,5 @@ and t1.unit = t2.unit
 and t1.resource_type = t2.resource_type
 # where t1.project_id = "Galactica";
 
+-- access struct from bq table
+-- https://stackoverflow.com/questions/39109817/cannot-access-field-in-big-query-with-type-arraystructhitnumber-int64-time-in
