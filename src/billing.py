@@ -1,10 +1,7 @@
 
-## https://stackoverflow.com/questions/27627630/what-does-compute-engine-network-internet-egress-mean-to-google-cloud
-
 import os
 import pandas as pd
 pd.set_option('display.max_columns', None)
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/jstep/Downloads/intense-arbor-186802-107ac532385b.json"
 
 from google.cloud import bigquery
 
